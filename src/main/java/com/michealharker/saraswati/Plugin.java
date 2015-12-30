@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.michealharker.saraswati.chat.ChatListener;
 import com.michealharker.saraswati.chat.DisableJoinQuit;
+import com.michealharker.saraswati.commands.MeCommand;
 import com.michealharker.saraswati.messages.BungeeCommunicator;
 
 import net.milkbowl.vault.chat.Chat;
@@ -37,11 +38,13 @@ public class Plugin extends JavaPlugin {
 		
 		this.bungee = new BungeeCommunicator(this);
 		
-		this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this.getBungeeLink());
-		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+		getCommand("me").setExecutor(new MeCommand(this));
 		
-		this.getServer().getPluginManager().registerEvents(new ChatListener(this), this);
-		this.getServer().getPluginManager().registerEvents(new DisableJoinQuit(), this);
+		getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this.getBungeeLink());
+		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+		
+		getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+		getServer().getPluginManager().registerEvents(new DisableJoinQuit(), this);
 	}
 	
 	public void onDisable() {

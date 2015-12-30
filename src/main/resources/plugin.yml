@@ -1,3 +1,18 @@
 name: Saraswati
 main: com.michealharker.saraswati.Plugin
 version: 0.1.0
+softdepends: [Vault]
+commands:
+  me:
+    description: Sends a message as an action message.
+    usage: /me <message>
+permissions:
+  saraswati.format.color:
+    description: Format messages with colour
+    default: false
+  saraswati.format.special:
+    description: Format messages with special characters
+    default: false
+  sarawati.format.obfuscate:
+    description: Format messages with the "magic" special character
+    default: false # Hell no
