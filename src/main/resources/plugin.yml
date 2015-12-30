@@ -6,13 +6,19 @@ commands:
   me:
     description: Sends a message as an action message.
     usage: /me <message>
+  mute:
+    description: Mute a player. Mutes are tracked by their player unique identifier.
+    usage: /mute <player>
 permissions:
   saraswati.format.color:
-    description: Format messages with colour
+    description: Format messages with color.
     default: false
   saraswati.format.special:
-    description: Format messages with special characters
+    description: Format messages with special characters.
     default: false
   sarawati.format.obfuscate:
-    description: Format messages with the "magic" special character
-    default: false # Hell no
+    description: Format messages with the "magic" special character.
+    default: false
+  sarawati.mute:
+    description: Allow the use of the mute command.
+    default: false
