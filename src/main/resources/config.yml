@@ -1,0 +1,3 @@
+msg-format: "{prefix}{player}{suffix}: {message}"
+me-format: "&7* {prefix}{player}{suffix} &7{message}"
+pm-format: "&7[{player} -> {receiver}] {message}"
