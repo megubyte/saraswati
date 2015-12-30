@@ -55,7 +55,7 @@ public class Plugin extends JavaPlugin {
 	
 	public void onEnable() {
 		if (!this.setupVault()) {
-			Bukkit.getLogger().log(Level.INFO, "You don't have Vault installed. Because of this i'll not hook into permissions.");
+			Bukkit.getLogger().log(Level.INFO, "You don't have Vault installed. Because of this I'll not hook into permissions.");
 		}
 		
 		try {
