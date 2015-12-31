@@ -1,7 +1,5 @@
 package com.michealharker.saraswati.commands;
 
-import java.util.logging.Level;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -26,22 +24,21 @@ public class MuteCommand implements CommandExecutor {
 		
 		if (args.length >= 1) {
 			if (!sender.hasPermission("saraswati.mute")) {
-				sender.sendMessage(ChatColor.GRAY + "You don't have permission to do this.");
+				sender.sendMessage(ChatColor.DARK_GRAY + "You don't have permission to do this.");
 				return false;
 			}
 			
-			if ((pl = Bukkit.getOfflinePlayer(args[0])) != null) {
-				this.plugin.getLogger().log(Level.INFO, pl.getUniqueId().toString());
+			if ((pl = Bukkit.getPlayer(args[0])) != null) {
 				if (this.plugin.getMuteManager().isMuted(pl.getUniqueId())) {
 					this.plugin.getMuteManager().removeMute(pl.getUniqueId());
-					sender.sendMessage(ChatColor.GRAY + pl.getName() + " has been unmuted.");
+					sender.sendMessage(ChatColor.DARK_GRAY + pl.getName() + " has been unmuted.");
 				} else {
 					this.plugin.getMuteManager().addMute(pl.getUniqueId());
-					sender.sendMessage(ChatColor.GRAY + pl.getName() + " has been muted.");
+					sender.sendMessage(ChatColor.DARK_GRAY + pl.getName() + " has been muted.");
 				}
 				return true;
 			} else {
-				sender.sendMessage(ChatColor.RED + "This user can't be found.");
+				sender.sendMessage(ChatColor.DARK_RED + "This user can't be found.");
 				return false;
 			}
 		}

@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.OfflinePlayer;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -20,10 +19,10 @@ public class MuteManager {
 	public String serialize() {
 		JSONObject obj = new JSONObject();
 		
-		Iterator it = mutes.entrySet().iterator();
+		Iterator<Map.Entry<UUID, Boolean>> it = mutes.entrySet().iterator();
 		
 		while (it.hasNext()) {
-			Map.Entry pair = (Map.Entry) it.next();
+			Map.Entry<UUID, Boolean> pair = it.next();
 			obj.put(pair.getKey(), pair.getValue());
 			it.remove();
 		}
@@ -35,10 +34,10 @@ public class MuteManager {
 		JSONObject obj = (JSONObject)JSONValue.parse(json);
 		
 		if (obj != null) {
-			Iterator iter = obj.keySet().iterator();
+			Iterator<?> iter = obj.keySet().iterator();
 		
 			while (iter.hasNext()) {
-				String key = (String)iter.next();
+				String key = (String) iter.next();
 				mutes.put(UUID.fromString(key), (boolean)obj.get(key));
 			}
 		}

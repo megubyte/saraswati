@@ -25,6 +25,11 @@ public class ChatListener implements Listener {
 	public void onChat(AsyncPlayerChatEvent e) {
 		e.setCancelled(true);
 		
+		if (this.plugin.getMuteManager().isMuted(e.getPlayer().getUniqueId())) {
+			e.getPlayer().sendMessage(ChatColor.DARK_GRAY + "You've been muted from speaking publically. You can /msg other players and server operators.");
+			return;
+		}
+		
 		String message = this.format(e.getMessage(), e.getPlayer());
 		
 		this.plugin.getBungeeLink().sendMessage(BungeeMessage.buildMessage(e.getPlayer().getUniqueId(), message, BungeeMessageType.PLAYER_MESSAGE));
