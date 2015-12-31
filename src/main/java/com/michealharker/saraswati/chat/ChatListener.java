@@ -34,14 +34,11 @@ public class ChatListener implements Listener {
 		
 		this.plugin.getBungeeLink().sendMessage(BungeeMessage.buildMessage(e.getPlayer().getUniqueId(), message, BungeeMessageType.PLAYER_MESSAGE));
 		
-		for (final Player pl : Bukkit.getOnlinePlayers()) {
-			// TODO: Player /ignores, /mutes
-			pl.sendMessage(message);
-		}
+		this.plugin.getChat().sendMessageToAllPlayers(message);
 	}
 
 	private String format(String message, Player player) {
-		String format = this.plugin.getConfig().getString("msg-format", "{prefix}{player}{suffix}: {message}");
+		String format = this.plugin.getConfig().getString("msg-format", "{prefix}{player}{suffix}&r: {message}");
 		Chat chat = this.plugin.getVaultChat().getProvider();
 		
 		format = format.replace("{player}", player.getName());

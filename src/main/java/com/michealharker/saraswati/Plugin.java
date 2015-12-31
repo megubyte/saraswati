@@ -14,6 +14,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.michealharker.saraswati.chat.ChatListener;
+import com.michealharker.saraswati.chat.ChatManager;
 import com.michealharker.saraswati.chat.DisableJoinQuit;
 import com.michealharker.saraswati.commands.MeCommand;
 import com.michealharker.saraswati.commands.MuteCommand;
@@ -25,6 +26,7 @@ public class Plugin extends JavaPlugin {
 	private RegisteredServiceProvider<Chat> chat;
 	private BungeeCommunicator bungee;
 	private MuteManager mutes;
+	private ChatManager chatManager;
 	
 	private boolean setupVault() {
 		RegisteredServiceProvider<Chat> provider = Bukkit.getServer().getServicesManager().getRegistration(Chat.class);
@@ -34,6 +36,10 @@ public class Plugin extends JavaPlugin {
 	
 	public RegisteredServiceProvider<Chat> getVaultChat() {
 		return this.chat;
+	}
+	
+	public ChatManager getChat() {
+		return this.chatManager;
 	}
 	
 	public MuteManager getMuteManager() {
@@ -81,6 +87,7 @@ public class Plugin extends JavaPlugin {
 		}
 		
 		this.bungee = new BungeeCommunicator(this);
+		this.chatManager = new ChatManager(this);
 		
 		getCommand("me").setExecutor(new MeCommand(this));
 		getCommand("mute").setExecutor(new MuteCommand(this));

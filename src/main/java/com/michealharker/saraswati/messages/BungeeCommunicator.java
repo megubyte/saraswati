@@ -49,9 +49,7 @@ public class BungeeCommunicator implements PluginMessageListener {
 					Bukkit.getLogger().log(Level.INFO, msg.message);
 					
 					if (!this.received.contains(msg)) {	
-						for (final Player pl : Bukkit.getOnlinePlayers()) {
-							pl.sendMessage(msg.message);
-						}
+						this.plugin.getChat().sendMessageToAllPlayers(msg.message);
 						
 						this.received.add(msg);
 					}
