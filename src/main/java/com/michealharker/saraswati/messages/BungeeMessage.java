@@ -14,11 +14,13 @@ public class BungeeMessage {
 	public String message;
 	public BungeeMessageType type;
 	public long ts;
+	public Object extra;
 	
-	public BungeeMessage(UUID uuid, String message, BungeeMessageType type) {
+	public BungeeMessage(UUID uuid, String message, BungeeMessageType type, Object extra) {
 		this.uuid = uuid;
 		this.message = message;
 		this.type = type;
+		this.extra = extra;
 	}
 	
 	public BungeeMessage(String json) {
@@ -32,10 +34,16 @@ public class BungeeMessage {
 		this.message = (String) obj.get("m");
 		this.type = BungeeMessageType.valueOf((String) obj.get("t"));
 		this.ts = (Long) obj.get("ts");
+		this.extra = (Object) obj.get("e");
 	}
 
+	public static byte[] buildMessage(UUID uuid, String message, BungeeMessageType type, Object extra) {
+		BungeeMessage bm = new BungeeMessage(uuid, message, type, extra);
+		return bm.buildMessage();
+	}
+	
 	public static byte[] buildMessage(UUID uuid, String message, BungeeMessageType type) {
-		BungeeMessage bm = new BungeeMessage(uuid, message, type);
+		BungeeMessage bm = new BungeeMessage(uuid, message, type, null);
 		return bm.buildMessage();
 	}
 	
@@ -45,15 +53,15 @@ public class BungeeMessage {
 		
 		try {
 			// BungeeCord Protocol items
-			out.writeUTF("Forward"); // Forward this message for us.
-			out.writeUTF("ALL"); // All servers, please.
-			out.writeUTF("Saraswati"); // Our plugin channel
+			out.writeUTF("Forward");
+			out.writeUTF("ALL"); 
+			out.writeUTF("Saraswati");
 			
 			// Our stuff
 			ByteArrayOutputStream bInner = new ByteArrayOutputStream();
 			DataOutputStream outInner = new DataOutputStream(bInner);
-			
-			outInner.writeUTF(this.serialize(uuid, message, type));
+		
+			outInner.writeUTF(this.serialize(uuid, message, type, extra));
 			
 			byte[] bytes = bInner.toByteArray();
 			out.writeShort(bytes.length);
@@ -66,13 +74,14 @@ public class BungeeMessage {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String serialize(UUID uuid, String message, BungeeMessageType type) {
+	public String serialize(UUID uuid, String message, BungeeMessageType type, Object extra) {
 		JSONObject obj = new JSONObject();
 		
 		obj.put("u", uuid.toString());
 		obj.put("t", type.toString());
 		obj.put("m", message);
 		obj.put("ts", System.currentTimeMillis());
+		obj.put("e", extra);
 		
 		return obj.toJSONString();
 	}

@@ -3,6 +3,7 @@ package com.michealharker.saraswati.messages;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -38,20 +39,32 @@ public class BungeeCommunicator implements PluginMessageListener {
 					in.readFully(data);
 					
 					DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(data));
-					
-					String json = msgin.readUTF();
-					
-					Bukkit.getLogger().log(Level.INFO, json);
-					
+					String json = msgin.readUTF();					
 					BungeeMessage msg = new BungeeMessage(json);
 					
-					Bukkit.getLogger().log(Level.INFO, msg.uuid.toString());
-					Bukkit.getLogger().log(Level.INFO, msg.message);
+					this.plugin.getLogger().log(Level.INFO, json.toString());
+					this.plugin.getLogger().log(Level.INFO, msg.uuid.toString());
+					this.plugin.getLogger().log(Level.INFO, msg.message);
+					this.plugin.getLogger().log(Level.INFO, msg.type.toString());
 					
-					if (!this.received.contains(msg)) {	
-						this.plugin.getChat().sendMessageToAllPlayers(msg.message);
-						
-						this.received.add(msg);
+					switch (msg.type) {
+					default:
+						this.plugin.getLogger().log(Level.WARNING, "I've received a message on the plugin channel that I'm not set up to handle. Have you updated me?");
+						break;
+					case PLAYER_MESSAGE:
+					case PLAYER_ME:
+						if (!this.received.contains(msg) && msg.ts >= System.currentTimeMillis() - 250) {	
+							this.plugin.getChat().sendMessageToAllPlayers(msg.message);
+							
+							this.received.add(msg);
+						}
+						break;
+					case PLAYER_MUTE:
+						if ((boolean) msg.extra) {
+							this.plugin.getMuteManager().addMute(msg.uuid);
+						} else {
+							this.plugin.getMuteManager().removeMute(msg.uuid);
+						}
 					}
 				}
 			}
