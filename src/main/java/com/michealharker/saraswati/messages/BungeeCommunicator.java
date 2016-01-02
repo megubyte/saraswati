@@ -42,11 +42,6 @@ public class BungeeCommunicator implements PluginMessageListener {
 					String json = msgin.readUTF();					
 					BungeeMessage msg = new BungeeMessage(json);
 					
-					this.plugin.getLogger().log(Level.INFO, json.toString());
-					this.plugin.getLogger().log(Level.INFO, msg.uuid.toString());
-					this.plugin.getLogger().log(Level.INFO, msg.message);
-					this.plugin.getLogger().log(Level.INFO, msg.type.toString());
-					
 					switch (msg.type) {
 					default:
 						this.plugin.getLogger().log(Level.WARNING, "I've received a message on the plugin channel that I'm not set up to handle. Have you updated me?");
