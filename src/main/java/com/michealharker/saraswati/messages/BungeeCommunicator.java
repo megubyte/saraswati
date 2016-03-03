@@ -50,6 +50,8 @@ public class BungeeCommunicator implements PluginMessageListener {
 					case PLAYER_MESSAGE:
 					case PLAYER_ME:
 					case IRC_MESSAGE:
+					case IRC_JOIN:
+					case IRC_PART:
 					case MISC:
 						if (!this.received.contains(msg) && msg.ts >= System.currentTimeMillis() - 75) {
 							this.plugin.getChat().sendMessageToAllPlayers(msg.message);
