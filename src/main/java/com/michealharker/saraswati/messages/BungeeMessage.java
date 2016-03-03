@@ -28,9 +28,16 @@ public class BungeeMessage {
 	}
 	
 	private void deserialize(String json) {
+		System.out.println(json);
 		JSONObject obj = (JSONObject)JSONValue.parse(json);
+
+		String uuid = (String) obj.get("u");
 		
-		this.uuid = UUID.fromString((String) obj.get("u"));
+		if (uuid != null) {
+			this.uuid = UUID.fromString(uuid);
+		} else {
+			this.uuid = null;
+		}
 		this.message = (String) obj.get("m");
 		this.type = BungeeMessageType.valueOf((String) obj.get("t"));
 		this.ts = (Long) obj.get("ts");
@@ -76,8 +83,12 @@ public class BungeeMessage {
 	@SuppressWarnings("unchecked")
 	public String serialize(UUID uuid, String message, BungeeMessageType type, Object extra) {
 		JSONObject obj = new JSONObject();
-		
-		obj.put("u", uuid.toString());
+
+		if (uuid != null) {
+			obj.put("u", uuid.toString());
+		} else {
+			obj.put("u", null);
+		}
 		obj.put("t", type.toString());
 		obj.put("m", message);
 		obj.put("ts", System.currentTimeMillis());
