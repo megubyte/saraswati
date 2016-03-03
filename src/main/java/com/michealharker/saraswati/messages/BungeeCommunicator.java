@@ -45,10 +45,13 @@ public class BungeeCommunicator implements PluginMessageListener {
 					default:
 						this.plugin.getLogger().log(Level.WARNING, "I've received a message on the plugin channel that I'm not set up to handle. Have you updated me?");
 						break;
+					case PLAYER_JOIN:
+					case PLAYER_QUIT:
 					case PLAYER_MESSAGE:
 					case PLAYER_ME:
 					case IRC_MESSAGE:
-						if (!this.received.contains(msg) && msg.ts >= System.currentTimeMillis() - 250) {	
+					case MISC:
+						if (!this.received.contains(msg) && msg.ts >= System.currentTimeMillis() - 75) {
 							this.plugin.getChat().sendMessageToAllPlayers(msg.message);
 							
 							this.received.add(msg);

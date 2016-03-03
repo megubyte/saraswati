@@ -28,7 +28,6 @@ public class BungeeMessage {
 	}
 	
 	private void deserialize(String json) {
-		System.out.println(json);
 		JSONObject obj = (JSONObject)JSONValue.parse(json);
 
 		String uuid = (String) obj.get("u");
