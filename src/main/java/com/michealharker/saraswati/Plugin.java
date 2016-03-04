@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 
+import com.michealharker.saraswati.listeners.DeathListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -97,6 +98,7 @@ public class Plugin extends JavaPlugin {
 		
 		getServer().getPluginManager().registerEvents(new ChatListener(this), this);
 		getServer().getPluginManager().registerEvents(new DisableJoinQuit(), this);
+		getServer().getPluginManager().registerEvents(new DeathListener(this), this);
 	}
 	
 	public void onDisable() {
