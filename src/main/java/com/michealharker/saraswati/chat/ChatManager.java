@@ -7,8 +7,12 @@ import com.michealharker.saraswati.Plugin;
 
 import net.md_5.bungee.api.ChatColor;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ChatManager {
 	private Plugin plugin;
+	private boolean moderated;
 
 	public ChatManager(Plugin plugin) {
 		this.plugin = plugin;
@@ -17,6 +21,8 @@ public class ChatManager {
 	public void sendMessageToAllPlayers(String message) {
 		for (final Player pl : this.plugin.getServer().getOnlinePlayers()) {
 			String msg;
+
+			msg = message;
 		
 			if (message.toLowerCase().contains("@" + pl.getName().toLowerCase())) {
 				msg = message.replaceAll("(?i)@" + pl.getName(), ChatColor.YELLOW + "@" + pl.getName() + ChatColor.RESET);
@@ -39,11 +45,17 @@ public class ChatManager {
 						pl.playSound(pl.getLocation(), Sound.SUCCESSFUL_HIT, 1.5f, 1.0f);
 					}
 				}, 6L);
-			} else {
-				msg = message;
 			}
 			
 			pl.sendMessage(msg);
 		}
+	}
+
+	public void setModerated(boolean moderated) {
+		this.moderated = moderated;
+	}
+
+	public boolean isModerated() {
+		return this.moderated;
 	}
 }

@@ -27,6 +27,9 @@ public class ChatListener implements Listener {
 		if (this.plugin.getMuteManager().isMuted(e.getPlayer().getUniqueId())) {
 			e.getPlayer().sendMessage(ChatColor.DARK_GRAY + "You've been muted from speaking publically. You can /msg other players and server operators.");
 			return;
+		} else if (this.plugin.getChat().isModerated()) {
+			e.getPlayer().sendMessage(ChatColor.DARK_GRAY + "This server is currently in moderation mode. You can't speak, but can /msg other players and server operators.");
+			return;
 		}
 		
 		String message = this.format(e.getMessage(), e.getPlayer());

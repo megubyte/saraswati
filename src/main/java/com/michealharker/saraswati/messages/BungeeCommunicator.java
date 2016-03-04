@@ -52,6 +52,8 @@ public class BungeeCommunicator implements PluginMessageListener {
 					case IRC_MESSAGE:
 					case IRC_JOIN:
 					case IRC_PART:
+					case IRC_QUIT:
+					case IRC_KICK:
 					case MISC:
 						if (!this.received.contains(msg) && msg.ts >= System.currentTimeMillis() - 75) {
 							this.plugin.getChat().sendMessageToAllPlayers(msg.message);
@@ -66,6 +68,8 @@ public class BungeeCommunicator implements PluginMessageListener {
 							this.plugin.getMuteManager().removeMute(msg.uuid);
 						}
 						break;
+					case MODERATED:
+						this.plugin.getChat().setModerated((boolean) msg.extra);
 					}
 				}
 			}

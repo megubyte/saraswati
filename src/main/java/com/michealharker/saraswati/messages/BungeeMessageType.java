@@ -13,6 +13,8 @@ public enum BungeeMessageType {
 	IRC_KICK,
 	IRC_QUIT,
 	IRC_PART,
+
+	MODERATED,
 	
 	MISC
 }
